@@ -1,4 +1,4 @@
-package com.example.cursorspringjpa.service;
+package com.example.cursorspringjpa.service.Impl;
 
 import com.example.cursorspringjpa.dto.ShopDTO;
 import com.example.cursorspringjpa.entity.Shop;
@@ -14,32 +14,25 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ShopServiceDTO {
+public class ShopServiceDTOImpl {
 
     public Shop parseJsonToShop(HttpServletRequest request, HttpServletResponse response) throws IOException {
         BufferedReader reader = request.getReader();
         String shopString = reader.lines().collect(Collectors.joining());
-
-        System.out.println("Shop string - "+shopString);
-
         ObjectMapper objectMapper = new ObjectMapper();
-
         Shop shop = objectMapper.readValue(shopString, Shop.class);
-        System.out.println("Shop obj "+shop.toString());
         return shop;
     }
 
-    public List<ShopDTO> parseShopsToDTO(List<Shop> shops){
-        shops.stream().map(it->parseShopToDTO(it)).collect(Collectors.toList());
+    public List<ShopDTO> parseShopsToDTO(List<Shop> shops) {
         return shops.stream()
-                .map(it->parseShopToDTO(it))
+                .map(it -> parseShopToDTO(it))
                 .collect(Collectors.toList());
     }
 
-    public ShopDTO parseShopToDTO(Shop shop){
-
-        return new ShopDTO(shop.getId(),shop.getShopName(),shop.getCity(),
-                shop.getAddress(),shop.isSiteExists());
+    public ShopDTO parseShopToDTO(Shop shop) {
+        return new ShopDTO(shop.getId(), shop.getShopName(), shop.getCity(),
+                shop.getAddress(), shop.isSiteExists());
     }
 
 }

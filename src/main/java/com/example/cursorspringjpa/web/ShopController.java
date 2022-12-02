@@ -1,9 +1,9 @@
 package com.example.cursorspringjpa.web;
 
 import com.example.cursorspringjpa.dto.ShopDTO;
-import com.example.cursorspringjpa.service.ShopServiceDTO;
 import com.example.cursorspringjpa.entity.Shop;
-import com.example.cursorspringjpa.service.ShopService;
+import com.example.cursorspringjpa.service.Impl.ShopServiceImpl;
+import com.example.cursorspringjpa.service.Impl.ShopServiceDTOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,28 +16,24 @@ import java.util.List;
 @RequestMapping(value = "/shops")
 public class ShopController {
     @Autowired
-    ShopService shopService;
+    ShopServiceImpl shopService;
 
     @Autowired
-    ShopServiceDTO shopServiceDTO;
+    ShopServiceDTOImpl shopServiceDTO;
 
     @GetMapping(value = "/findAll")
-    public List<ShopDTO> findAll(){
-
+    public List<ShopDTO> findAll() {
         return shopServiceDTO.parseShopsToDTO(shopService.findAll());
-
     }
 
     @GetMapping(value = "/findShop/{id}")
-    public ShopDTO findShopById(@PathVariable Long id){
+    public ShopDTO findShopById(@PathVariable Long id) {
         return shopServiceDTO.parseShopToDTO(shopService.findById(id));
     }
 
     @PostMapping(value = "/createShop")
-    public Shop createShop(HttpServletRequest request,HttpServletResponse response) throws IOException {
-
-        Shop shop = shopServiceDTO.parseJsonToShop(request,response);
-
+    public Shop createShop(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Shop shop = shopServiceDTO.parseJsonToShop(request, response);
         return shopService.createShop(shop);
     }
 }
